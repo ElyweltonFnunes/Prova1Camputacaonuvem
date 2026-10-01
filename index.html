@@ -1,0 +1,39 @@
+root@ubuntu:~$ cat> index.html<<'EOF'
+> <!DOCTYPE html>
+> <html lang="pt-BR">
+> <head>
+> <meta charset="UTF-8">
+> <title>Loja</title>
+> </head>
+> </body>
+> <h1>Loja no ar</h1>
+> </body>
+> </html>
+> EOF
+root@ubuntu:~$ docker run -d --name loja -p 8081:80 nginx:alpine
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+e2de96513ba9: Pull complete 
+d9aae54b5831: Pull complete 
+6c53d0b2a666: Pull complete 
+745dfb2690dd: Pull complete 
+9a9a644fdd6a: Pull complete 
+64c8194480fe: Pull complete 
+e76228b47809: Pull complete 
+e72112c14215: Pull complete 
+Digest: sha256:df221db836e1754089190208cee7eeda94f233197056426eda74a43ab1abeac2
+Status: Downloaded newer image for nginx:alpine
+1b3c0270493f0c1f92f1517b497ce000f10509d742de3da0442b6c7ee59c3a01
+root@ubuntu:~$ docker cpindex.html loja:/usr/share/nginx/html/index.html
+docker: unknown command: docker cpindex.html
+
+Run 'docker --help' for more information
+root@ubuntu:~$  docker cp index.html loja:/usr/share/nginx/html/index.html
+Successfully copied 2.05kB to loja:/usr/share/nginx/html/index.html
+root@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                                     NAMES
+1b3c0270493f   nginx:alpine   "/docker-entrypoint.…"   About a minute ago   Up About a minute   0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   loja
+root@ubuntu:~$ curl htp://localhost:8081
+curl: (1) Protocol "htp" not supported or disabled in libcurl
+root@ubuntu:~$ ^C
+root@ubuntu:~$ curl http://localhost:8081
